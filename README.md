@@ -6,7 +6,8 @@ OpenFlow rules that can adapt to network topologies changes and to traffic chang
 
 Functionalities:
 
-Monitor
+Monitor:
+
  print periodically, with period T1, the following information:
 • Per port information:
 • byte count
@@ -18,7 +19,8 @@ Monitor
 • timeouts
 T1 is a parameter of the controller.
 
-Topology Discovery
+Topology Discovery:
+
 A graph of the topology that Ryu application is going to be controlling is made using igraph. This topology adapts to changes  when switches go up or down.Need to use the flag “—observe-links” when running the Ryu Controller, to be
 able to see the changes.Each time a switch is discovered or deleted, a log should be written into the terminal.
 Given that the Ryu Controller cannot detect the bandwidth and latencies of the connected links. We have define a configuration file “link_config” that is going to contain the information related to the
@@ -33,10 +35,12 @@ The configuration file should be given as an input to both Mininet and the Ryu c
 The bandwidth and latencies associated with the link connecting a host to a switch should be:
 {“bandwidth”: 100, “latency”: 2} 
 
-Shortest Path and Widest Path static rules 
+Shortest Path and Widest Path static rules :
+
 based on config entry either shortest or widest path is taken as default for all packets, corresponding flows are installed in switches
 
-Proactive Rule
+Proactive Rule:
+
 The rules described previously are calculated once and don’t take into account statistics of network
 usage as the ones obtained in the Monitoring section. You are going to add additional logic to the
 Widest-path controller to be able to adapt based on changes in the network.
@@ -47,7 +51,8 @@ Each time a new flow need to be installed (PacketIn event), subtract the average
 from the total bandwidth available at each link in the original graph, and calculate the next hop using the
 highest width available path. If the host seems unreachable fall back to the static rules.
 
-Redistribute
+Redistribute:
+
 Additionally, every T2 seconds you are going to redistribute the flow. The controller should maintain the
 information related to the packets sent between two hosts (src,dst,packets), called comm_list. Using this
 information the controller should implement the following scheme:
