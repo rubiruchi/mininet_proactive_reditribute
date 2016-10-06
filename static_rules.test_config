@@ -1,0 +1,10 @@
+WidestTestTopo
+{"type":"pingall","begin":0}
+{"type": "dump-flows", "switch":"s1", "begin":5}
+{"type": "dump-flows", "switch":"s2", "begin":5}
+{"type": "dump-flows", "switch":"s3", "begin":5}
+{"type": "dump-flows", "switch":"s4", "begin":5}
+{"type": "dump-flows", "switch":"s5", "begin":5}
+{"type": "dump-flows", "switch":"s6", "begin":5}
+{"type": "dump-flows", "switch":"s7", "begin":5}
+{"type": "iperf", "server": "h3", "client": "h1", "begin": 0, "duration": 60, "udp":False, "bandwidth": 100}

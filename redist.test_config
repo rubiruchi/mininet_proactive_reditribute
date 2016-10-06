@@ -1,0 +1,6 @@
+SimpleTopo
+{"type": "pingall", "begin":0}
+{"type": "dump-flows", "switch":"s1", "begin":0}
+{"type": "iperf", "server": "h3", "client": "h1", "begin": 5, "duration": 5, "udp":False, "bandwidth": 100}
+{"type": "iperf", "server": "h3", "client": "h2", "begin": 5, "duration": 10, "udp":False, "bandwidth": 100}
+{"type": "dump-flows", "switch":"s1", "begin":30}

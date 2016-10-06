@@ -1,0 +1,50 @@
+Here are the file descriptions
+	toposomething.py (ALL of the ryu controller stuff)
+	mn_tester.py (The mininet test cases, test topologies, and testing script)
+	host_type.py (The CommandProfile for running iperf, pingall, and dump-flows commands in the testing service)
+	link_config (bandwidth and latency configurations)
+	param_config (testing paramater and strategy configurations)
+	static_rules.test_config (test configuration for static rules)
+	proactive.test_config (test configuration for proactive rules)
+	redist.test_config (test configuration for redistribution)
+	iperfXXXXX.clnt.out the output of the iperf client on port XXXXX from the testing service
+	iperfXXXXX.srv.out the output of the iperf server on port XXXXX from the testing service
+
+param_config
+	param_config is a python dictionary similar to link_config. It contains 7 parameters
+	T1: the number of seconds the monitor thread should wait before each sample
+	T2: the number of seconds the redistribution thread should before each redistribution
+	S1: the length of the bandwidth lists
+	strategy: either 'shortest_path','widest_path', or 'proactive' depending on which strategy you want the controller to use
+	monitoring_on: True or False. auto set to True if strategy is proactive, determines whether the monitoring thread is started
+	redistribute_on: True or False. only works if you have strategy set to proactive
+	port_logging_on: prints out port monitoring information if set to True, silences otherwise
+	flow_logging_on: prints out flow monitoring information if set to True, silences otherwise
+
+Running the tester:
+	The tester has 4 testing functions that can be selected via index by command line argument
+	'sudo mn -c && sudo python mn_tester.py 6' runs the test case used to verify shortest path (set strategy to 'shortest_path')
+	'sudo mn -c && sudo python mn_tester.py 6' runs the test case used to verify widest path (set strategy to 'widest_path')
+	'sudo mn -c && sudo python mn_tester.py proactive.test_config' runs the test case used to verify proactive path (set strategy to 'proactive' and redistribute_on to False)
+	'sudo mn -c && sudo python mn_tester.py redist.test_config' runs the test case used to verify redistribute (set strategy to 'proactive' and redistribute_on to True)
+
+	The static rules can also be verified with static_rules.test_config, but using the handwritten test will give you nicer output because it filters to only the relevant flows from h1 to h2
+
+Running the tester with a config file using the testing service:
+	'sudo mn -c && sudo python mn_test.py <test-file>' where test-file is a file format as follows:
+
+		line1 is the topology to initialize (SimpleTopo, LoopyTopo, TrickyTopo, or WidestTestTopo)
+			if you want to initialize your own topology you must add a branch to the if statement in mn_tester.py's test_from_config method
+		every line thereafter is a command of a certain type. the supported command templates are as follows
+			{"type": "pingall", "begin":<timestamp to start in seconds>}
+			{"type": "dump-flows", "switch":<switch name>, "begin":<timestamp to start in seconds>}
+			{"type": "iperf", "server": <server host name>, "client": <client host name>, "begin": <timestamp to start in seconds>, "duration": <duration of iperf transactions>, "udp":<True or False if iperf client should use udp>, "bandwidth": <bandwidth in Megabits per seconds udp connection should use>}
+
+		an example test configuration file can be seen in redist.test_config
+
+Testing service notes:
+	- iperf commmands can be setup to run simultaneously. pingall commands, however, are not implemented this way.
+	- iperf outputs will be stored as iperfXXXXX.clnt.out and iperfXXXXX.srv.out for the iperf transaction output on port XXXXX for client and server respectively
+
+After you start the mininet topology, quickly start the ryu controller with
+	'ryu-manager --observe-links toposomething.py'

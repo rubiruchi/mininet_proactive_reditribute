@@ -1,0 +1,66 @@
+###############################using SHORTEST_PATH
+Testing network connectivity
+*** Ping: testing ping reachability
+h1 -> h2 h3 h4 h5 h6 h7
+h2 -> h1 h3 h4 h5 h6 h7
+h3 -> h1 h2 h4 h5 h6 h7
+h4 -> h1 h2 h3 h5 h6 h7
+h5 -> h1 h2 h3 h4 h6 h7
+h6 -> h1 h2 h3 h4 h5 h7
+h7 -> h1 h2 h3 h4 h5 h6
+*** Results: 0% dropped (42/42 received)
+Testing latency between h1 and h2
+h1 -> h2
+h2 -> h1
+*** Results:
+ h1->h2: 1/1, rtt min/avg/max/mdev 16.617/16.617/16.617/0.000 ms
+ h2->h1: 1/1, rtt min/avg/max/mdev 17.797/17.797/17.797/0.000 ms
+Testing bandwidth between h1 and h2
+*** Iperf: testing TCP bandwidth between h1 and h2
+*** Results: ['42.3 Mbits/sec', '43.6 Mbits/sec']
+-----------dump-flows s1
+ cookie=0x0, duration=64.761s, table=0, n_packets=75892, n_bytes=334381024, priority=1,ip,in_port=1,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:02 actions=output:2
+-----------dump-flows s2
+ cookie=0x0, duration=64.763s, table=0, n_packets=75070, n_bytes=331441108, priority=1,ip,in_port=2,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:02 actions=output:1
+-----------dump-flows s3
+-----------dump-flows s4
+-----------dump-flows s5
+-----------dump-flows s6
+-----------dump-flows s7
+
+###############################using WIDEST_PATH
+Testing network connectivity
+*** Ping: testing ping reachability
+h1 -> h2 h3 h4 h5 h6 h7
+h2 -> h1 h3 h4 h5 h6 h7
+h3 -> h1 h2 h4 h5 h6 h7
+h4 -> h1 h2 h3 h5 h6 h7
+h5 -> h1 h2 h3 h4 h6 h7
+h6 -> h1 h2 h3 h4 h5 h7
+h7 -> h1 h2 h3 h4 h5 h6
+*** Results: 0% dropped (42/42 received)
+Testing latency between h1 and h2
+h1 -> h2
+h2 -> h1
+*** Results:
+ h1->h2: 1/1, rtt min/avg/max/mdev 41.957/41.957/41.957/0.000 ms
+ h2->h1: 1/1, rtt min/avg/max/mdev 49.178/49.178/49.178/0.000 ms
+Testing bandwidth between h1 and h2
+*** Iperf: testing TCP bandwidth between h1 and h2
+*** Results: ['74.2 Mbits/sec', '75.4 Mbits/sec']
+-----------dump-flows s1
+ cookie=0x0, duration=64.879s, table=0, n_packets=71325, n_bytes=574484810, priority=1,ip,in_port=1,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:02 actions=output:4
+-----------dump-flows s2
+ cookie=0x0, duration=64.809s, table=0, n_packets=71325, n_bytes=574484810, priority=1,ip,in_port=3,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:02 actions=output:1
+-----------dump-flows s3
+ cookie=0x0, duration=64.826s, table=0, n_packets=71325, n_bytes=574484810, priority=1,ip,in_port=3,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:02 actions=output:2
+-----------dump-flows s4
+ cookie=0x0, duration=64.843s, table=0, n_packets=71325, n_bytes=574484810, priority=1,ip,in_port=3,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:02 actions=output:4
+-----------dump-flows s5
+ cookie=0x0, duration=64.875s, table=0, n_packets=71325, n_bytes=574484810, priority=1,ip,in_port=4,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:02 actions=output:2
+-----------dump-flows s6
+ cookie=0x0, duration=64.896s, table=0, n_packets=71325, n_bytes=574484810, priority=1,ip,in_port=4,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:02 actions=output:2
+-----------dump-flows s7
+ cookie=0x0, duration=64.938s, table=0, n_packets=71325, n_bytes=574484810, priority=1,ip,in_port=2,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:02 actions=output:4
+
+
